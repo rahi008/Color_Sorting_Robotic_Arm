@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<robot name="eee13020815_arm">
+
+
+<material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
+
+  <material name="brown">
+    <color rgba="${222/255} ${207/255} ${195/255} 1.0"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+<!--static base -->
+
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size=".8 .8 .05"/>
+      </geometry>
+     <material name="green"/>
+    </visual>
+  </link>
+
+<!--rotating base -->
+
+
+ <link name="mainbase_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.06" radius="0.1"/>
+      </geometry>
+    </visual>
+  </link>
+
+
+<!--first segment -->
+
+  <link name="first_segment">
+    <visual>
+      <geometry>
+        <box size="0.6 0.05 0.1"/>
+      </geometry>
+<material name="blue"/>
+      <origin rpy="0 0 0" xyz="-0.3 0 0" />
+    </visual>
+  </link>
+
+<!--second segment -->
+
+  <link name="second_segment">
+    <visual>
+      <geometry>
+        <box size="0.45 0.05 0.1"/>
+      </geometry>
+<material name="black"/>
+      <origin rpy="0 0 0" xyz="-0.225 0 0" />
+    </visual>
+  </link>
+
+<!--third segment -->
+
+  <link name="third_segment">
+    <visual>
+      <geometry>
+        <box size="0.15 0.05 0.05"/>
+      </geometry>
+<material name="green"/>
+      <origin rpy="0 0 0" xyz="-0.09 0 0" />
+    </visual>
+  </link>
+
+
+<!--joints -->
+
+<!--static base to rotating base joint -->
+
+<joint name="base_to_mainbase" type="revolute">
+    <axis xyz="0 0 1" />
+    <limit effort="1000" lower="0" upper="3.14" velocity="0.5" />
+    <parent link="base_link"/>
+    <child link="mainbase_link"/>
+    <origin xyz="0 0 0.025" />
+  </joint>
+
+<!--rotating base to first segment joint -->
+
+  <joint name="mainbase_to_first" type="revolute">
+    <axis xyz="0 1 0" />
+    <limit effort="1000" lower="0" upper="3.14" velocity="0.5" />
+    <parent link="mainbase_link"/>
+    <child link="first_segment"/>
+    <origin rpy="0 0 0" xyz="0 0 0.055" />
+  </joint>
+
+<!--first segment to second segment joint -->
+
+   <joint name="first_to_second" type="revolute">
+    <axis xyz="0 -1 0" />
+    <limit effort="1000" lower="0" upper="3.14" velocity="0.5" />
+    <parent link="first_segment"/>
+    <child link="second_segment"/>
+    <origin rpy="0 0.61 0" xyz="-0.6 0 0" />
+  </joint>
+
+<!--second segment to third segment joint -->
+
+   <joint name="second_to_third" type="revolute">
+    <axis xyz="0 1 0" />
+    <limit effort="1000" lower="0" upper="3.14" velocity="0.5" />
+    <parent link="second_segment"/>
+    <child link="third_segment"/>
+    <origin rpy="0 -1.57 0" xyz="-0.45 0 0" />
+  </joint>
+
+<!--test gripper-->
+
+ 
+  <joint name="left_gripper_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0.0" upper="0.55" velocity="0.5"/>
+    <origin rpy="0 3.14 0" xyz="-0.18 0.01 0"/>
+    <parent link="third_segment"/>
+    <child link="left_gripper"/>
+  </joint>
+
+  <link name="left_gripper">
+    <visual>
+      <origin rpy="0.0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://urdf_tutorial/meshes/l_finger.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="left_tip_joint" type="fixed">
+    <parent link="left_gripper"/>
+    <child link="left_tip"/>
+  </joint>
+
+  <link name="left_tip">
+    <visual>
+      <origin rpy="0.0 0 0" xyz="0.09137 0.00495 0"/>
+      <geometry>
+        <mesh filename="package://urdf_tutorial/meshes/l_finger_tip.dae"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="right_gripper_joint" type="revolute">
+    <axis xyz="0 0 -1"/>
+    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <origin rpy="0 3.14 0" xyz="-0.18 -0.01 0"/>
+    <parent link="third_segment"/>
+    <child link="right_gripper"/>
+    <mimic joint="left_gripper_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="right_gripper">
+    <visual>
+      <origin rpy="-3.1415 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://urdf_tutorial/meshes/l_finger.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="right_tip_joint" type="fixed">
+    <parent link="right_gripper"/>
+    <child link="right_tip"/>
+  </joint>
+
+  <link name="right_tip">
+    <visual>
+      <origin rpy="-3.1415 0 0" xyz="0.09137 0.00495 0"/>
+      <geometry>
+        <mesh filename="package://urdf_tutorial/meshes/l_finger_tip.dae"/>
+      </geometry>
+    </visual>
+  </link>
+<!-- Gazebo plugin for ROS Control
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+</gazebo>  -->
+
+
+</robot>

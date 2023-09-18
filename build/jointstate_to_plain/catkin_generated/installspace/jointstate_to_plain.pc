@@ -1,0 +1,8 @@
+prefix=/home/kaiser/colour_sorting_arm/install
+
+Name: jointstate_to_plain
+Description: Description of jointstate_to_plain
+Version: 0.0.0
+Cflags: -I/home/kaiser/colour_sorting_arm/install/include
+Libs: -L/home/kaiser/colour_sorting_arm/install/lib -ljointstate_to_plain
+Requires: message_runtime rospy sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/home/kaiser/colour_sorting_arm/install
+
+Name: color_sort
+Description: Description of color_sort
+Version: 0.0.0
+Cflags: -I/home/kaiser/colour_sorting_arm/install/include
+Libs: -L/home/kaiser/colour_sorting_arm/install/lib -lcolor_sort
+Requires: message_runtime rospy sensor_msgs std_msgs

@@ -1,0 +1,2 @@
+arm_robot:color_sort:jointstate_to_plain
+-DCATKIN_DEVEL_PREFIX=/home/kaiser/colour_sorting_arm/devel -DCMAKE_INSTALL_PREFIX=/home/kaiser/colour_sorting_arm/install -G Unix Makefiles

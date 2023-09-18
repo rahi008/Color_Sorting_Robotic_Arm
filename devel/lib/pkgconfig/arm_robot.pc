@@ -1,0 +1,8 @@
+prefix=/home/kaiser/colour_sorting_arm/devel
+
+Name: arm_robot
+Description: Description of arm_robot
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/kaiser/colour_sorting_arm/devel/lib 
+Requires: 
